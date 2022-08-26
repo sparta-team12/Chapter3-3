@@ -46,7 +46,7 @@ public class CommentService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    Post post = postService.isPresentPost(requestDto.getPostId());
+    Post post = postService.isPresentPost(requestDto.getRequestId());
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
@@ -70,8 +70,8 @@ public class CommentService {
   }
 
   @Transactional(readOnly = true)
-  public ResponseDto<?> getAllCommentsByPost(Long postId) {
-    Post post = postService.isPresentPost(postId);
+  public ResponseDto<?> getAllCommentsByPost(Long requestId) {
+    Post post = postService.isPresentPost(requestId);
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
@@ -111,7 +111,7 @@ public class CommentService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    Post post = postService.isPresentPost(requestDto.getPostId());
+    Post post = postService.isPresentPost(requestDto.getRequestId());
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
@@ -180,43 +180,6 @@ public class CommentService {
       return null;
     }
     return tokenProvider.getMemberFromAuthentication();
-  }
-
-
-  @Transactional
-  public ResponseDto<?> likeComment(Long id, CommentRequestDto requestDto, HttpServletRequest request) {
-    if (null == request.getHeader("Refresh-Token")) {
-      return ResponseDto.fail("MEMBER_NOT_FOUND",
-              "로그인이 필요합니다.");
-    }
-
-    if (null == request.getHeader("Authorization")) {
-      return ResponseDto.fail("MEMBER_NOT_FOUND",
-              "로그인이 필요합니다.");
-    }
-
-    Member member = validateMember(request);
-    if (null == member) {
-      return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
-    }
-
-    Comment comment = isPresentComment(id);
-    if (null == comment) {
-      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
-    }
-
-
-    comment.update(requestDto);
-    return ResponseDto.success(
-            CommentResponseDto.builder()
-                    .id(comment.getId())
-                    .author(comment.getMember().getNickname())
-                    .content(comment.getContent())
-                    .likes(comment.getLikes())
-                    .createdAt(comment.getCreatedAt())
-                    .modifiedAt(comment.getModifiedAt())
-                    .build()
-    );
   }
 
   public Heart isPresentHeart(Long postId, String nickname) {
