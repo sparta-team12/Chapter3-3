@@ -16,10 +16,10 @@ public class Heart {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long heartId;
+  private Long Id;
 
   @Column(nullable = false)
-  private Long id;
+  private Long requestId;
 
 
   @Column(nullable = false)

@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface PostHeartRepository extends JpaRepository<Heart, Long> {
-  Optional<Heart> findByIdAndNickname(Long PostId, String Nickname);
-  List<Heart> findAllById(Long PostId);
+  Optional<Heart> findByRequestIdAndNickname(Long PostId, String Nickname);
+  List<Heart> findAllByRequestId(Long RequestId);
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface CommentHeartRepository extends JpaRepository<Heart, Long> {
-  Optional<Heart> findByRequestIdAndNickname(Long CommentId, String Nickname);
+public interface SubCommentHeartRepository extends JpaRepository<Heart, Long> {
+  Optional<Heart> findByRequestIdAndNickname(Long SubCommentId, String Nickname);
   List<Heart> findAllByRequestId(Long RequestId);
 }

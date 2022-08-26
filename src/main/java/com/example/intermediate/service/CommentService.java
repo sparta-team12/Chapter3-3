@@ -8,13 +8,12 @@ import com.example.intermediate.domain.Member;
 import com.example.intermediate.domain.Post;
 import com.example.intermediate.controller.request.CommentRequestDto;
 import com.example.intermediate.jwt.TokenProvider;
+import com.example.intermediate.repository.CommentHeartRepository;
 import com.example.intermediate.repository.CommentRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
-
-import com.example.intermediate.repository.PostHeartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,7 @@ public class CommentService {
 
   private final TokenProvider tokenProvider;
   private final PostService postService;
-  private final PostHeartRepository heartRepository;
+  private final CommentHeartRepository heartRepository;
 
   @Transactional
   public ResponseDto<?> createComment(CommentRequestDto requestDto, HttpServletRequest request) {
@@ -57,6 +56,7 @@ public class CommentService {
         .content(requestDto.getContent())
         .build();
     commentRepository.save(comment);
+
     return ResponseDto.success(
         CommentResponseDto.builder()
             .id(comment.getId())
@@ -182,8 +182,8 @@ public class CommentService {
     return tokenProvider.getMemberFromAuthentication();
   }
 
-  public Heart isPresentHeart(Long postId, String nickname) {
-    Optional<Heart> optionalHeart = heartRepository.findByIdAndNickname(postId,nickname);
+  public Heart isPresentHeart(Long commentId, String nickname) {
+    Optional<Heart> optionalHeart = heartRepository.findByRequestIdAndNickname(commentId,nickname);
     return optionalHeart.orElse(null);
   }
 
@@ -212,11 +212,11 @@ public class CommentService {
 
     Heart heart = isPresentHeart(comment.getId(), member.getNickname());
     if(null == heart)
-      heartRepository.save(Heart.builder().id(comment.getId()).nickname(member.getNickname()).build());
+      heartRepository.save(Heart.builder().requestId(comment.getId()).nickname(member.getNickname()).build());
     else
       heartRepository.delete(heart);
 
-    comment.updateLikes(heartRepository.findAllById(comment.getId()).size());
+    comment.updateLikes(heartRepository.findAllByRequestId(comment.getId()).size());
 
     return ResponseDto.success("like success");
   }

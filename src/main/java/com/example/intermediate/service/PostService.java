@@ -2,10 +2,8 @@ package com.example.intermediate.service;
 
 import com.example.intermediate.controller.response.CommentResponseDto;
 import com.example.intermediate.controller.response.PostResponseDto;
-import com.example.intermediate.domain.Comment;
-import com.example.intermediate.domain.Heart;
-import com.example.intermediate.domain.Member;
-import com.example.intermediate.domain.Post;
+import com.example.intermediate.controller.response.SubCommentResponseDto;
+import com.example.intermediate.domain.*;
 import com.example.intermediate.controller.request.PostRequestDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.jwt.TokenProvider;
@@ -17,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
+import com.example.intermediate.repository.SubCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,7 @@ public class PostService {
   private final PostRepository postRepository;
   private final PostHeartRepository heartRepository;
   private final CommentRepository commentRepository;
-
+  private final SubCommentRepository subCommentRepository;
   private final TokenProvider tokenProvider;
 
   @Transactional
@@ -78,17 +77,36 @@ public class PostService {
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     for (Comment comment : commentList) {
+
+      List<SubComment> subCommentList = subCommentRepository.findAllByComment(comment);
+      List<SubCommentResponseDto> subCommentResponseDtoList = new ArrayList<>();
+      for (SubComment subComment : subCommentList) {
+        subCommentResponseDtoList.add(
+                SubCommentResponseDto.builder()
+                        .id(subComment.getId())
+                        .author(subComment.getMember().getNickname())
+                        .content(subComment.getContent())
+                        .likes(subComment.getLikes())
+                        .createdAt(subComment.getCreatedAt())
+                        .modifiedAt(subComment.getModifiedAt())
+                        .build()
+        );
+      }
+
       commentResponseDtoList.add(
-          CommentResponseDto.builder()
-              .id(comment.getId())
-              .author(comment.getMember().getNickname())
-              .content(comment.getContent())
-              .likes(comment.getLikes())
-              .createdAt(comment.getCreatedAt())
-              .modifiedAt(comment.getModifiedAt())
-              .build()
+              CommentResponseDto.builder()
+                      .id(comment.getId())
+                      .author(comment.getMember().getNickname())
+                      .content(comment.getContent())
+                      .likes(comment.getLikes())
+                      .createdAt(comment.getCreatedAt())
+                      .modifiedAt(comment.getModifiedAt())
+                      .SubCommentResponseDtoList(subCommentResponseDtoList)
+                      .build()
       );
+
     }
+
 
     return ResponseDto.success(
         PostResponseDto.builder()
@@ -184,7 +202,7 @@ public class PostService {
   }
 
   public Heart isPresentHeart(Long postId, String nickname) {
-      Optional<Heart> optionalHeart = heartRepository.findByIdAndNickname(postId,nickname);
+      Optional<Heart> optionalHeart = heartRepository.findByRequestIdAndNickname(postId,nickname);
       return optionalHeart.orElse(null);
   }
 
@@ -213,11 +231,11 @@ public class PostService {
 
     Heart heart = isPresentHeart(post.getId(), member.getNickname());
     if(null == heart)
-      heartRepository.save(Heart.builder().id(post.getId()).nickname(member.getNickname()).build());
+      heartRepository.save(Heart.builder().requestId(post.getId()).nickname(member.getNickname()).build());
     else
       heartRepository.delete(heart);
 
-    post.updateLikes(heartRepository.findAllById(post.getId()).size());
+    post.updateLikes(heartRepository.findAllByRequestId(post.getId()).size());
 
     return ResponseDto.success("like success");
   }

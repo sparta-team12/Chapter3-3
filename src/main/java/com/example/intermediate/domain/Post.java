@@ -1,6 +1,8 @@
 package com.example.intermediate.domain;
 
 import com.example.intermediate.controller.request.PostRequestDto;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,7 +37,7 @@ public class Post extends Timestamped {
   private String content;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Comment> comments;
+  private List<Comment> comments = new ArrayList<>();
 
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
