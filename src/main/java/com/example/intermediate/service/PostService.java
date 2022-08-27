@@ -201,8 +201,8 @@ public class PostService {
     return tokenProvider.getMemberFromAuthentication();
   }
 
-  public Heart isPresentHeart(Long postId, String nickname) {
-      Optional<Heart> optionalHeart = heartRepository.findByRequestIdAndNickname(postId,nickname);
+  public  PostHeart isPresentHeart(Long postId, String nickname) {
+      Optional< PostHeart> optionalHeart = heartRepository.findByRequestIdAndNickname(postId,nickname);
       return optionalHeart.orElse(null);
   }
 
@@ -229,9 +229,10 @@ public class PostService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
-    Heart heart = isPresentHeart(post.getId(), member.getNickname());
+    PostHeart heart = isPresentHeart(post.getId(), member.getNickname());
+
     if(null == heart)
-      heartRepository.save(Heart.builder().requestId(post.getId()).nickname(member.getNickname()).build());
+      heartRepository.save(PostHeart.builder().requestId(post.getId()).nickname(member.getNickname()).build());
     else
       heartRepository.delete(heart);
 

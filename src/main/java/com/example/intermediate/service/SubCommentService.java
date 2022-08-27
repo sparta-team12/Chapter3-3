@@ -181,8 +181,8 @@ public class SubCommentService {
   }
 
 
-  public Heart isPresentHeart(Long subCommentId, String nickname) {
-    Optional<Heart> optionalHeart = heartRepository.findByRequestIdAndNickname(subCommentId,nickname);
+  public SubCommentHeart isPresentHeart(Long subCommentId, String nickname) {
+    Optional<SubCommentHeart> optionalHeart = heartRepository.findByRequestIdAndNickname(subCommentId,nickname);
     return optionalHeart.orElse(null);
   }
 
@@ -209,11 +209,11 @@ public class SubCommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 대댓글 id 입니다.");
     }
 
-    Heart heart = isPresentHeart(subComment.getId(), member.getNickname());
-    if(null == heart)
-      heartRepository.save(Heart.builder().requestId(subComment.getId()).nickname(member.getNickname()).build());
+    SubCommentHeart subCommentHeart = isPresentHeart(subComment.getId(), member.getNickname());
+    if(null == subCommentHeart)
+      heartRepository.save(SubCommentHeart.builder().requestId(subComment.getId()).nickname(member.getNickname()).build());
     else
-      heartRepository.delete(heart);
+      heartRepository.delete(subCommentHeart);
 
     subComment.updateLikes(heartRepository.findAllByRequestId(subComment.getId()).size());
 

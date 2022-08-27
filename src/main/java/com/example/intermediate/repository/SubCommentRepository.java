@@ -9,4 +9,6 @@ import java.util.List;
 public interface SubCommentRepository extends JpaRepository<SubComment, Long> {
   List<SubComment> findAllByComment(Comment comment);
   void deleteAllByComment(Comment comment);
+
+  List<SubComment> findAllByMemberId(Long id);
 }

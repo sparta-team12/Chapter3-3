@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
   private final CommentRepository commentRepository;
-
   private final TokenProvider tokenProvider;
   private final PostService postService;
   private final CommentHeartRepository heartRepository;
@@ -200,8 +199,8 @@ public class CommentService {
     return tokenProvider.getMemberFromAuthentication();
   }
 
-  public Heart isPresentHeart(Long commentId, String nickname) {
-    Optional<Heart> optionalHeart = heartRepository.findByRequestIdAndNickname(commentId,nickname);
+  public CommentHeart isPresentHeart(Long commentId, String nickname) {
+    Optional<CommentHeart> optionalHeart = heartRepository.findByRequestIdAndNickname(commentId,nickname);
     return optionalHeart.orElse(null);
   }
 
@@ -228,11 +227,11 @@ public class CommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
-    Heart heart = isPresentHeart(comment.getId(), member.getNickname());
-    if(null == heart)
-      heartRepository.save(Heart.builder().requestId(comment.getId()).nickname(member.getNickname()).build());
+    CommentHeart commentHeart = isPresentHeart(comment.getId(), member.getNickname());
+    if(null == commentHeart)
+      heartRepository.save(CommentHeart.builder().requestId(comment.getId()).nickname(member.getNickname()).build());
     else
-      heartRepository.delete(heart);
+      heartRepository.delete(commentHeart);
 
     comment.updateLikes(heartRepository.findAllByRequestId(comment.getId()).size());
 

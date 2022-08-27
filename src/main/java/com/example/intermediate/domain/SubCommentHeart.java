@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Heart {
+public class SubCommentHeart {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +24,7 @@ public class Heart {
 
   @Column(nullable = false)
   private String nickname;
+
+
 
 }
