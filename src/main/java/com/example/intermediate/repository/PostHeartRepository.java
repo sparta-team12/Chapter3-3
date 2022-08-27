@@ -1,7 +1,5 @@
 package com.example.intermediate.repository;
 
-import com.example.intermediate.domain.Heart;
-
 import java.util.List;
 import java.util.Optional;
 

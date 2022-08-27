@@ -1,7 +1,6 @@
 package com.example.intermediate.repository;
 
 import com.example.intermediate.domain.CommentHeart;
-import com.example.intermediate.domain.Heart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

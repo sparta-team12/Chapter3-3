@@ -1,6 +1,5 @@
 package com.example.intermediate.repository;
 
-import com.example.intermediate.domain.Heart;
 import com.example.intermediate.domain.SubCommentHeart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
