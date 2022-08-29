@@ -1,10 +1,10 @@
 package com.example.intermediate.Controller;
 
 
-import com.example.spring_3th_assignment.Controller.response.ImageResponseDto;
-import com.example.spring_3th_assignment.Controller.response.ResponseDto;
-import com.example.spring_3th_assignment.service.S3UploaderService;
-import com.example.spring_3th_assignment.util.ImageScheduler;
+import com.example.intermediate.Controller.response.ImageResponseDto;
+import com.example.intermediate.Controller.response.ResponseDto;
+import com.example.intermediate.service.S3UploaderService;
+import com.example.intermediate.util.ImageScheduler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
