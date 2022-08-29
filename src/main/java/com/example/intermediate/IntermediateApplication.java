@@ -13,4 +13,5 @@ public class IntermediateApplication {
   public static void main(String[] args) {
     SpringApplication.run(IntermediateApplication.class, args);
   }
+
 }
