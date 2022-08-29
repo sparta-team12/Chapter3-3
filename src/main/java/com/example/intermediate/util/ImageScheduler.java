@@ -2,8 +2,8 @@ package com.example.intermediate.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
-import com.example.spring_3th_assignment.domain.Image;
-import com.example.spring_3th_assignment.repository.ImageRepository;
+import com.example.intermediate.repository.ImageRepository;
+import com.example.intermediate.domain.Image;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
