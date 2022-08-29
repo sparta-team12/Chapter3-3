@@ -1,8 +1,9 @@
-package com.example.intermediate.Controller;
+package com.example.intermediate.controller;
 
 
-import com.example.intermediate.Controller.response.ImageResponseDto;
-import com.example.intermediate.Controller.response.ResponseDto;
+import com.example.intermediate.controller.response.ImageResponseDto;
+import com.example.intermediate.controller.response.ResponseDto;
+import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.S3UploaderService;
 import com.example.intermediate.util.ImageScheduler;
 import lombok.RequiredArgsConstructor;

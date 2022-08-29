@@ -2,8 +2,9 @@ package com.example.intermediate.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
-import com.example.spring_3th_assignment.domain.Image;
-import com.example.spring_3th_assignment.repository.ImageRepository;
+import com.example.intermediate.domain.Image;
+import com.example.intermediate.ImageRepository;
+import com.example.intermediate.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,7 +29,7 @@ public class ImageScheduler {
         //s3Client에 요청 보낼 내용정리
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
         // 요청결과 객체
-        ObjectListing s3Objects;
+        ObjectList2ing s3Objects;
 
 
         listObjectsRequest.setBucketName(bucket);
