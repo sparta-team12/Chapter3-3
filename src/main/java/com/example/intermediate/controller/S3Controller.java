@@ -31,7 +31,7 @@ public class S3Controller {
            return ResponseDto.success(new ImageResponseDto(s3Uploader.uploadFiles(multipartFile,"static")) );
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습.");
+            return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습니다.");
         }
 
     }
