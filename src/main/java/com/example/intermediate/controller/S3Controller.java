@@ -1,4 +1,4 @@
-package com.example.spring_3th_assignment.Controller;
+package com.example.intermediate.Controller;
 
 
 import com.example.spring_3th_assignment.Controller.response.ImageResponseDto;
