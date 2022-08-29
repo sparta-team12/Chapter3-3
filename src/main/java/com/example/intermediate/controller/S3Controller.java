@@ -3,7 +3,6 @@ package com.example.intermediate.controller;
 
 import com.example.intermediate.controller.response.ImageResponseDto;
 import com.example.intermediate.controller.response.ResponseDto;
-import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.S3UploaderService;
 import com.example.intermediate.util.ImageScheduler;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +28,14 @@ public class S3Controller {
             return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습니다.");
         }
         try{
-           return ResponseDto.success(new ImageResponseDto(s3Uploader.uploadFiles(multipartFile,"static")) );
+           return ResponseDto.success(new ImageResponseDto(s3Uploader.uploadFiles(multipartFile,"static/")) );
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습니다.");
+            return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습.");
         }
 
     }
+
 
     @GetMapping("/api/auth/test")
     public void test(){
