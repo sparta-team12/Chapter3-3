@@ -1,6 +1,7 @@
 package com.example.intermediate.controller;
 
 import com.example.intermediate.controller.request.PostRequestDto;
+import com.example.intermediate.controller.response.ImageResponseDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.PostService;
 import javax.servlet.http.HttpServletRequest;
@@ -13,31 +14,15 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RestController
 public class PostController {
-  private final S3UploaderService s3Uploader;
-  private final PostService postService;
 
-//  @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
-//  public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto,
-//      HttpServletRequest request) {
-//    return postService.createPost(requestDto, request);
-//  }
+  private final PostService postService;
+  private final S3UploaderService s3Uploader;
 
   @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
-  public ResponseDto<?> createPost(@RequestPart(value = "post") PostRequestDto requestDto,
-                                   @RequestPart(value = "file") MultipartFile file ,
+  public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto,
                                    HttpServletRequest request) {
-    String imgUrl = "";
-    if(file.isEmpty()){
-      return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습니다.");
-    }
-    try{
-      imgUrl = s3Uploader.uploadFiles(file,"static/");
-    }catch (Exception e){
-      e.printStackTrace();
-      return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습니다.");
-    }
 
-    return postService.createPost(requestDto,imgUrl, request);
+    return postService.createPost(requestDto, request);
   }
 
   @RequestMapping(value = "/api/post/{id}", method = RequestMethod.GET)

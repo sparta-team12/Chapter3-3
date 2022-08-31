@@ -31,15 +31,15 @@ public class PostService {
   private final TokenProvider tokenProvider;
 
   @Transactional
-  public ResponseDto<?> createPost(PostRequestDto requestDto,String imgUrl, HttpServletRequest request) {
+  public ResponseDto<?> createPost(PostRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-              "로그인이 필요합니다.");
+          "로그인이 필요합니다.");
     }
 
     if (null == request.getHeader("Authorization")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-              "로그인이 필요합니다.");
+          "로그인이 필요합니다.");
     }
 
     Member member = validateMember(request);
@@ -48,23 +48,23 @@ public class PostService {
     }
 
     Post post = Post.builder()
-            .title(requestDto.getTitle())
-            .content(requestDto.getContent())
-            .member(member)
-            .imgUrl(imgUrl)
-            .build();
+        .title(requestDto.getTitle())
+        .content(requestDto.getContent())
+        .member(member)
+        .imgUrl(requestDto.getImgUrl())
+        .build();
     postRepository.save(post);
     return ResponseDto.success(
-            PostResponseDto.builder()
-                    .id(post.getId())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .author(post.getMember().getNickname())
-                    .likes(post.getLikes())
-                    .imageUrl(post.getImgUrl())
-                    .createdAt(post.getCreatedAt())
-                    .modifiedAt(post.getModifiedAt())
-                    .build()
+        PostResponseDto.builder()
+            .id(post.getId())
+            .title(post.getTitle())
+            .content(post.getContent())
+            .author(post.getMember().getNickname())
+            .likes(post.getLikes())
+            .imageUrl(post.getImgUrl())
+            .createdAt(post.getCreatedAt())
+            .modifiedAt(post.getModifiedAt())
+            .build()
     );
   }
 
@@ -116,6 +116,7 @@ public class PostService {
             .title(post.getTitle())
             .content(post.getContent())
             .likes(post.getLikes())
+            .imageUrl(post.getImgUrl())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
@@ -242,6 +243,5 @@ public class PostService {
 
     return ResponseDto.success("like success");
   }
-
 
 }
