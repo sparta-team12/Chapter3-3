@@ -45,6 +45,10 @@ public class Post extends Timestamped {
   private Member member;
 
   @Column(nullable = false)
+  private String imgUrl;
+
+
+  @Column(nullable = false)
   private int likes;
 
   public void update(PostRequestDto postRequestDto) {
