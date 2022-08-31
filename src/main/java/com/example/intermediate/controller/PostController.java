@@ -1,25 +1,27 @@
 package com.example.intermediate.controller;
 
 import com.example.intermediate.controller.request.PostRequestDto;
+import com.example.intermediate.controller.response.ImageResponseDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.PostService;
 import javax.servlet.http.HttpServletRequest;
+
+import com.example.intermediate.service.S3UploaderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
 public class PostController {
 
   private final PostService postService;
+  private final S3UploaderService s3Uploader;
 
   @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
   public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto,
-      HttpServletRequest request) {
+                                   HttpServletRequest request) {
+
     return postService.createPost(requestDto, request);
   }
 
