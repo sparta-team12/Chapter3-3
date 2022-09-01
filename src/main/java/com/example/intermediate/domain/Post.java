@@ -36,6 +36,8 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String content;
 
+  @Column(nullable = false)
+  private String imgUrl;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments = new ArrayList<>();
@@ -43,6 +45,10 @@ public class Post extends Timestamped {
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
+
+  @Column(nullable = false)
+  private String imgUrl;
+
 
   @Column(nullable = false)
   private int likes;
