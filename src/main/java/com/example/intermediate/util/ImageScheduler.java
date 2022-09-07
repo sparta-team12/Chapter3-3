@@ -45,7 +45,7 @@ public class ImageScheduler {
                     String fileName = (file.split("static/"))[1];
                     String imgUrl = path+fileName;
                     Image image = imageRepository.findByImgURL(imgUrl).orElse(null);
-                    //해당경로가 없을 경우, 해당 파일 삭제해야함 s3에서
+                    //해당경파일로가 없을 경우, 해당  삭제해야함 s3에서
                     if(image==null){
                         deleteS3Image(file);
                     }

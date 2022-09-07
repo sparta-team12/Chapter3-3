@@ -46,9 +46,6 @@ public class Post extends Timestamped {
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
 
-  @Column(nullable = false)
-  private String imgUrl;
-
 
   @Column(nullable = false)
   private int likes;
